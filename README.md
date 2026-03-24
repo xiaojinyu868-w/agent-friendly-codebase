@@ -46,7 +46,7 @@ BEFORE (Vibe Coding)                    AFTER (Agent-Friendly)
 ❌ AI forgets everything each session   ✅ Reads handoff notes from last session
 ❌ Code goes wherever AI feels like     ✅ Architecture enforced by lint rules
 ❌ No tests, or "I'll add them later"   ✅ Writes test FIRST, then code. Always.
-❌ Changes break random stuff           ✅ Each commit does exactly one thing
+❌ Changes break random stuff           ✅ Architecture enforced — code can only go in the right place
 ❌ "fix stuff" commit messages          ✅ "domain(orders): add discount policy"
 ❌ You explain the project every time   ✅ AI reads project contract auto
 ❌ Switch AI tool = start over          ✅ Any tool reads the same contract
@@ -132,12 +132,11 @@ Session end:
 6. Log         → Update handoff notes
 ```
 
-## The Five Laws your AI will follow
+## The Four Laws your AI will follow
 
 | Law | What it means (in plain English) |
 |-----|----------------------------------|
 | ⚖️ **Test First** | AI writes a test before writing code. Every time. If it didn't → it deletes the code and starts over. |
-| 📐 **One Purpose** | Each commit does exactly one thing. If you can't describe it in one sentence without "and" → split it. |
 | 🗂️ **Right Place** | Every file has exactly one correct folder. Business logic → `domain/`. Database stuff → `adapters/`. No exceptions. |
 | ✅ **Prove It Works** | AI runs `make test` and `make lint` before calling anything "done". Not "I think it works" — actual proof. |
 | 📝 **Leave Notes** | Before ending, AI writes what it did, what's left, and what to do next. The next session reads this first. |

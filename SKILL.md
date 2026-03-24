@@ -363,23 +363,7 @@ If you wrote code before writing a test:
 "Delete" means delete. Not comment out. Not "keep for reference." Delete.
 ```
 
-#### LAW 2: ONE CHANGE, ONE PURPOSE
-
-```
-Every commit does exactly ONE thing.
-
-Ask: "Can I describe this change in one sentence without using 'and'?"
-  YES → Good. Proceed.
-  NO  → You're doing two things. Split them into separate commits.
-
-Touching multiple files is FINE if they all serve the same purpose.
-  Adding a use case? → domain entity + port + use case + adapter + test = OK (one purpose)
-  Adding a feature AND refactoring something unrelated? → NOT OK (two purposes)
-
-The measure is SCOPE, not file count.
-```
-
-#### LAW 3: LAYER DISCIPLINE
+#### LAW 2: LAYER DISCIPLINE
 
 ```
 Before writing ANY code, answer: "Which layer does this belong to?"
@@ -401,7 +385,7 @@ If you can't answer this question → You don't understand the requirement yet.
                                      Go back and clarify.
 ```
 
-#### LAW 4: VERIFY BEFORE CLAIMING DONE
+#### LAW 3: VERIFY BEFORE CLAIMING DONE
 
 ```
 You are NOT done until:
@@ -414,7 +398,7 @@ You are NOT done until:
 "I think it works" is NOT verification. Evidence or it didn't happen.
 ```
 
-#### LAW 5: LEAVE A TRAIL
+#### LAW 4: LEAVE A TRAIL
 
 ```
 Before ending your session, you MUST append to .agent/session-log.md:
@@ -448,12 +432,10 @@ When the user asks you to implement something, follow this exact sequence. Do no
 │ 1. UNDERSTAND                                    │
 │    - Restate the requirement in your own words   │
 │    - Identify: which layer? which files?         │
-│    - If multiple layers → confirm one purpose    │
 ├─────────────────────────────────────────────────┤
 │ 2. PLAN (silently — do NOT dump plans to user)   │
 │    - List the exact files to create/modify       │
 │    - Define the test for each change             │
-│    - Confirm: all files serve ONE purpose        │
 ├─────────────────────────────────────────────────┤
 │ 3. TEST (RED)                                    │
 │    - Write a failing test that describes         │
@@ -514,7 +496,6 @@ If you observe ANY of these, STOP and fix before proceeding:
 | File in wrong layer | Architecture violation | Move it to correct layer + add lint rule |
 | `domain/` importing from `adapters/` | Critical boundary breach | Extract a port interface immediately |
 | Test requires database/HTTP to run | Test is at wrong level | Rewrite as unit test with mocked port |
-| Change serves multiple unrelated purposes | Commit is doing too much | Split into separate single-purpose commits |
 | No tests for new code | TDD was skipped | Delete code, write test first, reimplementation |
 | `utils/`, `helpers/`, `misc/` directories | Architectural smell | Redistribute into proper layers |
 | `.agent/session-log.md` is empty/stale | Session continuity broken | Reconstruct from git log, then maintain going forward |
