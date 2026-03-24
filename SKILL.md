@@ -363,14 +363,20 @@ If you wrote code before writing a test:
 "Delete" means delete. Not comment out. Not "keep for reference." Delete.
 ```
 
-#### LAW 2: MINIMAL DIFF
+#### LAW 2: ONE CHANGE, ONE PURPOSE
 
 ```
-Every change should touch THE FEWEST FILES POSSIBLE.
+Every commit does exactly ONE thing.
 
-If your change touches > 3 files → STOP. Rethink boundaries.
-If your change touches > 5 files → Something is architecturally wrong. 
-                                    Do NOT proceed. Fix the architecture first.
+Ask: "Can I describe this change in one sentence without using 'and'?"
+  YES → Good. Proceed.
+  NO  → You're doing two things. Split them into separate commits.
+
+Touching multiple files is FINE if they all serve the same purpose.
+  Adding a use case? → domain entity + port + use case + adapter + test = OK (one purpose)
+  Adding a feature AND refactoring something unrelated? → NOT OK (two purposes)
+
+The measure is SCOPE, not file count.
 ```
 
 #### LAW 3: LAYER DISCIPLINE
@@ -442,12 +448,12 @@ When the user asks you to implement something, follow this exact sequence. Do no
 │ 1. UNDERSTAND                                    │
 │    - Restate the requirement in your own words   │
 │    - Identify: which layer? which files?         │
-│    - If > 3 files affected → decompose further   │
+│    - If multiple layers → confirm one purpose    │
 ├─────────────────────────────────────────────────┤
 │ 2. PLAN (silently — do NOT dump plans to user)   │
 │    - List the exact files to create/modify       │
 │    - Define the test for each change             │
-│    - Estimate: should be 2-3 files max           │
+│    - Confirm: all files serve ONE purpose        │
 ├─────────────────────────────────────────────────┤
 │ 3. TEST (RED)                                    │
 │    - Write a failing test that describes         │
@@ -508,7 +514,7 @@ If you observe ANY of these, STOP and fix before proceeding:
 | File in wrong layer | Architecture violation | Move it to correct layer + add lint rule |
 | `domain/` importing from `adapters/` | Critical boundary breach | Extract a port interface immediately |
 | Test requires database/HTTP to run | Test is at wrong level | Rewrite as unit test with mocked port |
-| Change touches > 5 files | Feature is too coupled | Decompose into smaller changes |
+| Change serves multiple unrelated purposes | Commit is doing too much | Split into separate single-purpose commits |
 | No tests for new code | TDD was skipped | Delete code, write test first, reimplementation |
 | `utils/`, `helpers/`, `misc/` directories | Architectural smell | Redistribute into proper layers |
 | `.agent/session-log.md` is empty/stale | Session continuity broken | Reconstruct from git log, then maintain going forward |
