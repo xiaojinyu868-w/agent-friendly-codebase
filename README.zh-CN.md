@@ -59,7 +59,7 @@
 | 工具 | 怎么装 |
 |------|--------|
 | **Claude Code** | `mkdir -p .claude/skills && cp SKILL.md .claude/skills/agent-friendly-codebase.md`<br/>或者直接重命名为项目根目录的 `CLAUDE.md` |
-| **Cursor** | 把内容复制到 `.cursor/rules/agent-friendly.mdc`<br/>或者粘贴到 **设置 → Rules for AI** |
+| **Cursor** | 把内容复制到 `.cursor/rules/agent-friendly.md`<br/>或者粘贴到 **设置 → Rules → Project Rules** |
 | **Windsurf** | 把内容复制到项目根目录的 `.windsurfrules` |
 | **CodeBuddy** | 把内容复制到 `.codebuddy/rules/` 或通过界面创建项目规则 |
 | **Codex / Gemini CLI** | 放到对应平台的 skill 目录（看平台文档） |

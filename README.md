@@ -66,8 +66,8 @@ Or simply rename to `CLAUDE.md` in project root.
 </td></tr>
 <tr><td><strong>Cursor</strong></td><td>
 
-Copy content into `.cursor/rules/agent-friendly.mdc`  
-or paste into **Settings → Rules for AI**
+Copy content into `.cursor/rules/agent-friendly.md`  
+or paste into **Settings → Rules → Project Rules**
 </td></tr>
 <tr><td><strong>Windsurf</strong></td><td>
 

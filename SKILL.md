@@ -1,13 +1,9 @@
----
-name: agent-friendly-codebase
-description: |
-  Use at the START of any project or when joining any codebase.
-  This skill transforms any repository into an agent-friendly codebase — 
-  one where every future agent session can work reliably without human hand-holding.
-  It initializes architecture, contracts, verification, and session continuity automatically.
----
-
 # Agent-Friendly Codebase
+
+<!-- Skill: agent-friendly-codebase -->
+<!-- Use at the START of any project or when joining any codebase. -->
+<!-- This skill transforms any repository into an agent-friendly codebase — -->
+<!-- one where every future agent session can work reliably without human hand-holding. -->
 
 You are now operating under the **Agent-Friendly Codebase** methodology.
 
@@ -97,7 +93,7 @@ src/
 4. Mark existing messy areas with `TODO(arch): migrate to domain/app/adapters` comments.
 5. Refactor existing code incrementally — one module per session, with tests.
 
-Create the directories NOW. Add a `.gitkeep` in each empty directory.
+Create the directories NOW. Add a `.gitkeep` in each empty directory. If you cannot create directories (e.g., no terminal access), describe the exact structure to the user and ask them to create it, then verify.
 
 ### Step 3: Create AGENTS.md
 
@@ -258,7 +254,7 @@ If the language doesn't have a compile-time check, add a `make arch-check` targe
 
 ### Step 6: Create Session Continuity Infrastructure
 
-Create the `.agent/` directory and seed the session log:
+Create the `.agent/` directory and seed the session log. **This directory MUST be committed to git** — it is the cross-session handoff mechanism. Without it in the repo, the next agent starts from zero.
 
 ```
 .agent/
@@ -294,19 +290,27 @@ Add to `.agent/decisions.md`:
 
 ### Step 7: Verify Initialization
 
-After completing steps 1-6, run:
+After completing steps 1-6:
+
+**Create a seed test file** so the test runner has something to execute. This prevents "no tests found" errors on empty projects:
+
+- **Python:** `tests/test_smoke.py` with `def test_project_starts(): assert True`
+- **TypeScript/Jest:** `src/__tests__/smoke.test.ts` with `test('project starts', () => expect(true).toBe(true))`
+- **Go:** `smoke_test.go` with `func TestSmoke(t *testing.T) {}`
+
+Then run:
 ```bash
 make bootstrap
 make test
 make lint
 ```
 
-All three MUST pass (even if there's no code yet — tests should be empty but runnable, lint should have zero errors). If any fail, fix them NOW before proceeding.
+All three MUST pass. If any fail, fix them NOW before proceeding. Do NOT skip this — a broken golden path means every future session starts with confusion.
 
 **Report to the user:**
 ```
 ✅ Agent-Friendly Codebase initialized:
-- Architecture: [Hexagonal/Vertical Slice]
+- Architecture: [Hexagonal/Feature-Based]
 - Language: [detected]
 - AGENTS.md: created
 - Golden Path: make bootstrap/test/lint/run
@@ -335,6 +339,8 @@ These rules apply to EVERY agent session — including the first one after initi
 4. RUN make test               → Confirm the project is healthy
 5. If make test FAILS          → Fix it FIRST before doing anything else
 ```
+
+If you cannot execute terminal commands, ask the user to run `make test` and report the result. Do NOT proceed until you have confirmation that tests pass.
 
 If any of these files don't exist, you are in an uninitialized project. Go back to PHASE 1.
 
